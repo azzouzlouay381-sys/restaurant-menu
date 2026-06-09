@@ -1,38 +1,38 @@
-'use client';
-import { Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+'use client'
+import { Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 function LoginFormContent() {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/admin';
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/admin'
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+    e.preventDefault()
+    setLoading(true)
+    setError('')
 
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+    const formData = new FormData(e.currentTarget)
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
 
     const result = await signIn('credentials', {
       email,
       password,
       redirect: false,
-    });
+    })
 
-    setLoading(false);
+    setLoading(false)
 
     if (result?.error) {
-      setError('Invalid email or password');
+      setError('Invalid email or password')
     } else {
-      router.push(callbackUrl);
+      router.push(callbackUrl)
     }
   }
 
@@ -78,14 +78,20 @@ function LoginFormContent() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-50"
+        className="w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 rounded-lg transition-colors disabled:opacity-50"
       >
         {loading ? 'Signing in...' : 'Login to Dashboard'}
       </button>
     </form>
-  );
+  )
 }
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-cente
+    <div className="min-h-screen flex items-center justify-center bg-stone-50">
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoginFormContent />
+      </Suspense>
+    </div>
+  )
+}
