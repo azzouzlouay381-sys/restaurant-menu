@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { generateQRBuffer } from "@/services/qrService";
 import { NextResponse } from "next/server";
 
@@ -16,10 +18,10 @@ export async function GET(request: Request) {
     // 1. Generate the original Node.js Buffer
     const buffer = await generateQRBuffer({ url });
 
-    // 2. Convert it to Uint8Array so Netlify/TypeScript stops complaining
+    // 2. Convert it to Uint8Array so Netlify/TypeScript accepts it as standard BodyInit
     const body = new Uint8Array(buffer);
 
-    // 3. Return the response with the correct web-compliant body
+    // 3. Return the web-compliant response
     return new NextResponse(body, {
       status: 200,
       headers: {
