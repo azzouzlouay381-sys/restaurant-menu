@@ -13,102 +13,132 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const ALLERGEN_EMOJI: Record<string, string> = {
-  gluten: '🌾', dairy: '🥛', eggs: '🥚', fish: '🐟',
-  shellfish: '🦐', nuts: '🥜', peanuts: '🥜', soy: '🌱',
+const ALLERGEN_LABEL: Record<string, string> = {
+  gluten: 'Gluten', dairy: 'Dairy', eggs: 'Eggs', fish: 'Fish',
+  shellfish: 'Shellfish', nuts: 'Nuts', peanuts: 'Peanuts', soy: 'Soy',
 }
 
 export default async function MenuPage() {
   const [categories, restaurant] = await Promise.all([getMenuData(), getRestaurantInfo()])
 
   return (
-    <div className="min-h-screen bg-stone-50">
-      {/* Header */}
-      <header className="bg-stone-900 text-white text-center py-16 px-6">
-        <p className="text-amber-400 text-xs tracking-widest uppercase mb-3">Our Menu</p>
-        <h1 className="text-4xl font-bold mb-3">{restaurant?.name ?? 'La Maison'}</h1>
-        {restaurant?.description && (
-          <p className="text-stone-400 max-w-xl mx-auto">{restaurant.description}</p>
-        )}
+    <div className="min-h-screen" style={{ background: '#faf8f5' }}>
+
+      <header className="relative overflow-hidden" style={{ background: '#1c1917' }}>
+        <div className="relative max-w-2xl mx-auto px-6 py-20 text-center">
+          <p className="text-xs tracking-[0.25em] uppercase mb-6" style={{ color: '#b45309' }}>
+            {restaurant?.name ?? 'La Maison'}
+          </p>
+          <h1 className="text-5xl mb-6 leading-tight" style={{ color: '#fafaf9', fontWeight: 400, fontFamily: 'Georgia, serif', letterSpacing: '-0.01em' }}>
+            Our Menu
+          </h1>
+          {restaurant?.description && (
+            <p className="text-base leading-relaxed max-w-md mx-auto" style={{ color: '#a8a29e' }}>
+              {restaurant.description}
+            </p>
+          )}
+          <div className="mt-10 flex items-center justify-center gap-3">
+            <div className="h-px w-16" style={{ background: '#44403c' }} />
+            <div className="w-1 h-1 rounded-full" style={{ background: '#b45309' }} />
+            <div className="h-px w-16" style={{ background: '#44403c' }} />
+          </div>
+        </div>
       </header>
 
-      {/* Category nav */}
-      <nav className="sticky top-0 z-10 bg-white border-b border-stone-200 shadow-sm">
-        <div className="max-w-3xl mx-auto px-4 flex gap-1 overflow-x-auto py-3">
-          {categories.map((cat) => (
-            <a
-              key={cat.id}
-              href={`#${cat.slug}`}
-              className="whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium text-stone-600 hover:bg-amber-50 hover:text-amber-700 transition-colors"
-            >
-              {cat.name}
-            </a>
-          ))}
+      <nav className="sticky top-0 z-20 border-b" style={{ background: '#faf8f5', borderColor: '#e7e5e4' }}>
+        <div className="max-w-2xl mx-auto px-4">
+          <div className="flex overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+            {categories.map((cat) => (
+              
+                key={cat.id}
+                href={`#${cat.slug}`}
+                className="whitespace-nowrap px-4 py-4 text-sm flex-shrink-0 transition-colors hover:text-stone-900"
+                style={{ color: '#78716c', fontWeight: 500, textDecoration: 'none' }}
+              >
+                {cat.name}
+              </a>
+            ))}
+          </div>
         </div>
       </nav>
 
-      {/* Menu sections */}
-      <main className="max-w-3xl mx-auto px-4 py-12 space-y-16">
-        {categories.map((category) => (
-          <section key={category.id} id={category.slug}>
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-stone-800">{category.name}</h2>
-              {category.description && (
-                <p className="text-stone-500 mt-1">{category.description}</p>
-              )}
-              <div className="mt-3 h-px bg-amber-200" />
-            </div>
+      <main className="max-w-2xl mx-auto px-4 py-14">
+        <div className="space-y-20">
+          {categories.map((category, ci) => (
+            <section key={category.id} id={category.slug}>
+              <div className="mb-10">
+                <div className="flex items-center gap-4 mb-3">
+                  <span className="text-xs tracking-widest uppercase" style={{ color: '#b45309', fontWeight: 500 }}>
+                    0{ci + 1}
+                  </span>
+                  <div className="h-px flex-1" style={{ background: '#e7e5e4' }} />
+                </div>
+                <h2 className="text-3xl" style={{ color: '#1c1917', fontWeight: 400, fontFamily: 'Georgia, serif' }}>
+                  {category.name}
+                </h2>
+                {category.description && (
+                  <p className="mt-2 text-sm" style={{ color: '#a8a29e' }}>{category.description}</p>
+                )}
+              </div>
 
-            <div className="space-y-4">
-              {category.products.map((product) => (
-                <article
-                  key={product.id}
-                  className="bg-white rounded-2xl p-5 flex gap-4 shadow-sm border border-stone-100 hover:border-amber-200 transition-colors"
-                >
-                  {product.imageUrl && (
-                    <div className="relative w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
-                      <Image src={product.imageUrl} alt={product.name} fill className="object-cover" />
-                    </div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <h3 className="font-semibold text-stone-800 text-base">
-                          {product.name}
-                          {product.isHighlighted && (
-                            <span className="ml-2 text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
-                              Chef&apos;s Special
-                            </span>
+              <div className="divide-y" style={{ borderColor: '#f0ede9' }}>
+                {category.products.map((product) => (
+                  <article key={product.id} className="py-6 flex gap-5 group">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h3 className="text-base" style={{ color: '#1c1917', fontWeight: 600 }}>
+                              {product.name}
+                            </h3>
+                            {product.isHighlighted && (
+                              <span className="text-xs px-2 py-0.5 rounded-sm" style={{ background: '#fef3c7', color: '#92400e', fontWeight: 500 }}>
+                                Chef&apos;s choice
+                              </span>
+                            )}
+                          </div>
+                          {product.description && (
+                            <p className="mt-1.5 text-sm leading-relaxed line-clamp-2" style={{ color: '#78716c' }}>
+                              {product.description}
+                            </p>
                           )}
-                        </h3>
-                        {product.description && (
-                          <p className="text-stone-500 text-sm mt-1 line-clamp-2">{product.description}</p>
-                        )}
+                          {product.allergens.length > 0 && (
+                            <div className="flex flex-wrap gap-1.5 mt-3">
+                              {product.allergens.map((a) => (
+                                <span key={a} className="text-xs px-2 py-0.5 rounded-sm" style={{ background: '#f5f5f4', color: '#a8a29e', border: '1px solid #e7e5e4' }}>
+                                  {ALLERGEN_LABEL[a] ?? a}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <span className="flex-shrink-0 text-base" style={{ color: '#1c1917', fontWeight: 600 }}>
+                          {formatPrice(product.price)}
+                        </span>
                       </div>
-                      <span className="font-bold text-amber-700 whitespace-nowrap text-base">
-                        {formatPrice(product.price)}
-                      </span>
                     </div>
-                    {product.allergens.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {product.allergens.map((a) => (
-                          <span key={a} className="text-xs text-stone-400 bg-stone-100 px-2 py-0.5 rounded-full">
-                            {ALLERGEN_EMOJI[a] ?? ''} {a}
-                          </span>
-                        ))}
+
+                    {product.imageUrl && (
+                      <div className="relative flex-shrink-0 overflow-hidden rounded-lg" style={{ width: 88, height: 88 }}>
+                        <Image src={product.imageUrl} alt={product.name} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
                       </div>
                     )}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        ))}
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
       </main>
 
-      <footer className="text-center py-8 text-stone-400 text-sm border-t border-stone-200">
-        {restaurant?.address && <p>{restaurant.address}</p>}
-        {restaurant?.phone && <p className="mt-1">{restaurant.phone}</p>}
+      <footer className="border-t mt-8" style={{ borderColor: '#e7e5e4' }}>
+        <div className="max-w-2xl mx-auto px-6 py-12 text-center">
+          <p className="text-xs tracking-widest uppercase mb-4" style={{ color: '#b45309' }}>
+            {restaurant?.name ?? 'La Maison'}
+          </p>
+          {restaurant?.address && <p className="text-sm" style={{ color: '#a8a29e' }}>{restaurant.address}</p>}
+          {restaurant?.phone && <p className="text-sm mt-1" style={{ color: '#a8a29e' }}>{restaurant.phone}</p>}
+        </div>
       </footer>
     </div>
   )
