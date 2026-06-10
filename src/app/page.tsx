@@ -5,75 +5,105 @@ export default async function HomePage() {
   const restaurant = await getRestaurantInfo()
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen" style={{ background: '#faf8f5' }}>
+
       {/* Hero */}
-      <section className="relative bg-stone-900 text-white">
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-900/60 to-stone-900/90" />
-        <div className="relative max-w-4xl mx-auto px-6 py-32 text-center">
-          <p className="text-amber-400 text-sm font-medium tracking-widest uppercase mb-4">Welcome to</p>
-          <h1 className="text-6xl font-bold mb-6">{restaurant?.name ?? 'La Maison'}</h1>
-          <p className="text-stone-300 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+      <section style={{ background: '#1c1917', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div className="max-w-2xl mx-auto px-6 py-32 text-center w-full">
+          <p className="text-xs tracking-[0.3em] uppercase mb-8" style={{ color: '#b45309' }}>
+            Welcome to
+          </p>
+          <h1 className="mb-6 leading-none" style={{ color: '#fafaf9', fontFamily: 'Georgia, serif', fontSize: 'clamp(3rem, 8vw, 5.5rem)', fontWeight: 400, letterSpacing: '-0.02em' }}>
+            {restaurant?.name ?? 'La Maison'}
+          </h1>
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <div className="h-px w-16" style={{ background: '#44403c' }} />
+            <div className="w-1 h-1 rounded-full" style={{ background: '#b45309' }} />
+            <div className="h-px w-16" style={{ background: '#44403c' }} />
+          </div>
+          <p className="text-base leading-relaxed max-w-md mx-auto mb-12" style={{ color: '#a8a29e' }}>
             {restaurant?.description ?? 'Fine dining with a modern twist.'}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/menu"
-              className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-8 py-4 rounded-full transition-colors text-lg"
+              className="px-8 py-3.5 text-sm font-medium tracking-wide transition-colors"
+              style={{ background: '#b45309', color: '#fafaf9', borderRadius: 2 }}
             >
-              View Our Menu
+              View the Menu
             </Link>
             <Link
               href="/contact"
-              className="border border-white/30 hover:bg-white/10 text-white font-semibold px-8 py-4 rounded-full transition-colors text-lg"
+              className="px-8 py-3.5 text-sm font-medium tracking-wide transition-colors"
+              style={{ border: '1px solid #44403c', color: '#a8a29e', borderRadius: 2 }}
             >
               Make a Reservation
             </Link>
           </div>
         </div>
-      </section>
 
-      {/* Info strip */}
-      <section className="bg-amber-500 text-white">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex flex-wrap justify-center gap-8 text-sm font-medium">
-          {restaurant?.address && <span>📍 {restaurant.address}</span>}
-          {restaurant?.phone && <span>📞 {restaurant.phone}</span>}
-          <span>🕐 Mon–Sun 12:00–23:00</span>
+        {/* Info bar */}
+        <div className="border-t" style={{ borderColor: '#292524' }}>
+          <div className="max-w-2xl mx-auto px-6 py-5 flex flex-wrap justify-center gap-8 text-xs tracking-wider" style={{ color: '#78716c' }}>
+            {restaurant?.address && <span style={{ textTransform: 'uppercase' }}>{restaurant.address}</span>}
+            {restaurant?.phone && <span style={{ textTransform: 'uppercase' }}>{restaurant.phone}</span>}
+            <span style={{ textTransform: 'uppercase' }}>Mon – Sun · 12:00 – 23:00</span>
+          </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="max-w-4xl mx-auto px-6 py-20 grid md:grid-cols-3 gap-8 text-center">
-        {[
-          { icon: '🥘', title: 'Fresh Ingredients', desc: 'Locally sourced produce and the finest meats.' },
-          { icon: '👨‍🍳', title: 'Expert Chefs', desc: 'Our team brings decades of culinary experience.' },
-          { icon: '🍷', title: 'Curated Wine List', desc: 'Paired perfectly with every dish on our menu.' },
-        ].map((f) => (
-          <div key={f.title} className="p-6">
-            <div className="text-4xl mb-4">{f.icon}</div>
-            <h3 className="text-xl font-semibold mb-2 text-stone-800">{f.title}</h3>
-            <p className="text-stone-500">{f.desc}</p>
-          </div>
-        ))}
+      {/* Three pillars */}
+      <section className="max-w-2xl mx-auto px-6 py-24">
+        <div className="grid md:grid-cols-3 gap-12">
+          {[
+            { label: '01', title: 'Fresh Ingredients', desc: 'Locally sourced produce and the finest meats, chosen daily.' },
+            { label: '02', title: 'Expert Chefs', desc: 'A team with decades of culinary experience behind every dish.' },
+            { label: '03', title: 'Curated Wines', desc: 'A wine list chosen to pair perfectly with every plate.' },
+          ].map((f) => (
+            <div key={f.label}>
+              <p className="text-xs tracking-widest uppercase mb-4" style={{ color: '#b45309', fontWeight: 500 }}>{f.label}</p>
+              <h3 className="text-base mb-2" style={{ color: '#1c1917', fontWeight: 600 }}>{f.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: '#a8a29e' }}>{f.desc}</p>
+            </div>
+          ))}
+        </div>
       </section>
+
+      {/* Divider */}
+      <div className="max-w-2xl mx-auto px-6">
+        <div className="h-px" style={{ background: '#e7e5e4' }} />
+      </div>
 
       {/* CTA */}
-      <section className="bg-stone-100 border-t border-stone-200">
-        <div className="max-w-2xl mx-auto px-6 py-20 text-center">
-          <h2 className="text-3xl font-bold text-stone-800 mb-4">Browse Our Full Menu</h2>
-          <p className="text-stone-500 mb-8">Starters, mains, desserts and drinks — all in one place.</p>
-          <Link
-            href="/menu"
-            className="bg-stone-900 hover:bg-stone-700 text-white font-semibold px-8 py-4 rounded-full transition-colors inline-block"
-          >
-            See the Menu →
-          </Link>
-        </div>
+      <section className="max-w-2xl mx-auto px-6 py-24 text-center">
+        <p className="text-xs tracking-[0.25em] uppercase mb-6" style={{ color: '#b45309' }}>Explore</p>
+        <h2 className="text-4xl mb-4" style={{ color: '#1c1917', fontFamily: 'Georgia, serif', fontWeight: 400 }}>
+          Browse the full menu
+        </h2>
+        <p className="text-sm mb-10" style={{ color: '#a8a29e' }}>
+          Starters, mains, desserts and drinks — all in one place.
+        </p>
+        <Link
+          href="/menu"
+          className="inline-block px-10 py-3.5 text-sm font-medium tracking-wide transition-colors"
+          style={{ background: '#1c1917', color: '#fafaf9', borderRadius: 2 }}
+        >
+          See the Menu →
+        </Link>
       </section>
 
       {/* Footer */}
-      <footer className="bg-stone-900 text-stone-400 text-center py-8 text-sm">
-        <p>© {new Date().getFullYear()} {restaurant?.name ?? 'La Maison'}. All rights reserved.</p>
+      <footer className="border-t" style={{ borderColor: '#e7e5e4' }}>
+        <div className="max-w-2xl mx-auto px-6 py-10 text-center">
+          <p className="text-xs tracking-widest uppercase mb-2" style={{ color: '#b45309' }}>
+            {restaurant?.name ?? 'La Maison'}
+          </p>
+          <p className="text-xs" style={{ color: '#d6d3d1' }}>
+            © {new Date().getFullYear()} All rights reserved.
+          </p>
+        </div>
       </footer>
+
     </main>
   )
 }
