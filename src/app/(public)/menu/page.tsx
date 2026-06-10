@@ -24,8 +24,8 @@ export default async function MenuPage() {
   return (
     <div className="min-h-screen" style={{ background: '#faf8f5' }}>
 
-      <header className="relative overflow-hidden" style={{ background: '#1c1917' }}>
-        <div className="relative max-w-2xl mx-auto px-6 py-20 text-center">
+      <header style={{ background: '#1c1917' }}>
+        <div className="max-w-2xl mx-auto px-6 py-20 text-center">
           <p className="text-xs tracking-[0.25em] uppercase mb-6" style={{ color: '#b45309' }}>
             {restaurant?.name ?? 'La Maison'}
           </p>
@@ -140,6 +140,7 @@ export default async function MenuPage() {
           {restaurant?.phone && <p className="text-sm mt-1" style={{ color: '#a8a29e' }}>{restaurant.phone}</p>}
         </div>
       </footer>
+
     </div>
   )
 }
