@@ -6,12 +6,15 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50: '#fdf8f0',
-          100: '#f9edda',
-          500: '#c97d3a',
-          600: '#a8622a',
-          900: '#3d200d',
+          50:  '#faf8f5',
+          100: '#f0ede9',
+          500: '#b45309',
+          600: '#92400e',
+          900: '#1c1917',
         },
+      },
+      fontFamily: {
+        serif: ['Georgia', 'Cambria', 'serif'],
       },
     },
   },
