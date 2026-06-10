@@ -49,7 +49,7 @@ export default async function MenuPage() {
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
             {categories.map((cat) => (
-              
+              <a
                 key={cat.id}
                 href={`#${cat.slug}`}
                 className="whitespace-nowrap px-4 py-4 text-sm flex-shrink-0 transition-colors hover:text-stone-900"
