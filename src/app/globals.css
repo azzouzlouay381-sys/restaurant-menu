@@ -3,22 +3,23 @@
 @tailwind utilities;
 
 :root {
-  --brand-50: #fdf8f0;
-  --brand-100: #f9edda;
-  --brand-500: #c97d3a;
-  --brand-600: #a8622a;
-  --brand-900: #3d200d;
+  --brand-50: #faf8f5;
+  --brand-100: #f0ede9;
+  --brand-500: #b45309;
+  --brand-600: #92400e;
+  --brand-900: #1c1917;
 }
 
 * { box-sizing: border-box; }
 
+html { scroll-behavior: smooth; }
+
 body {
   font-family: var(--font-geist-sans, system-ui, sans-serif);
-  background-color: #fafaf9;
+  background-color: #faf8f5;
   color: #1c1917;
+  -webkit-font-smoothing: antialiased;
 }
-
-html { scroll-behavior: smooth; }
 
 .line-clamp-2 {
   display: -webkit-box;
@@ -26,3 +27,6 @@ html { scroll-behavior: smooth; }
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Hide scrollbar on nav */
+nav ::-webkit-scrollbar { display: none; }
