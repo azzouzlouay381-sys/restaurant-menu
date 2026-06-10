@@ -6,7 +6,7 @@ import Image from 'next/image'
 export const revalidate = 60
 
 export async function generateMetadata(): Promise<Metadata> {
-  const restaurant = await getRestaurantInfo()
+  const restaurant = await getRestaurantInfo();
   return {
     title: `Menu | ${restaurant?.name ?? 'Restaurant'}`,
     description: 'Browse our full menu of fresh, handcrafted dishes.',
@@ -19,7 +19,7 @@ const ALLERGEN_LABEL: Record<string, string> = {
 }
 
 export default async function MenuPage() {
-  const [categories, restaurant] = await Promise.all([getMenuData(), getRestaurantInfo()])
+  const [categories, restaurant] = await Promise.all([getMenuData(), getRestaurantInfo()]);
 
   return (
     <div className="min-h-screen" style={{ background: '#faf8f5' }}>
@@ -142,5 +142,5 @@ export default async function MenuPage() {
       </footer>
 
     </div>
-  )
+  );
 }
